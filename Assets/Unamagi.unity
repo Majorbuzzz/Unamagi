@@ -209,34 +209,6 @@ MonoBehaviour:
   Player: {fileID: 0}
   SmoothTimeX: 0.05
   SmoothTimeY: 0.05
---- !u!1 &767073378
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 767073379}
-  m_Layer: 0
-  m_Name: Monsters
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &767073379
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 767073378}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9612729, y: -1.4687953, z: 0.13822256}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &810457281
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +280,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1522492800
 GameObject:
@@ -548,12 +520,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1576022977}
   - component: {fileID: 1576022976}
-  - component: {fileID: 1576022982}
+  - component: {fileID: 1576022979}
   - component: {fileID: 1576022975}
   - component: {fileID: 1576022981}
   - component: {fileID: 1576022980}
   - component: {fileID: 1576022978}
-  - component: {fileID: 1576022979}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -648,7 +619,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.5
+  m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -691,6 +662,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 142debe42e9d559418699e49ea070dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpHeight: 2
+  timeToJumpApex: 0.4
 --- !u!114 &1576022981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,20 +673,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4211341ab0bf544bb3d70db8643c77b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 30
-  jumpHeight: 3.5
-  timeToJumpApex: 0.4
---- !u!114 &1576022982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1576022974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8944aab5e0ad645b229a50201285c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collisionMask:
