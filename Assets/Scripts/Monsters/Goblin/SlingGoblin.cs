@@ -6,9 +6,12 @@ public class SlingGoblin : Goblin
     private bool _isSlingRecharged;
     private bool _isAttacking;
     private float timer = 1f;
+    
+    internal override void StartOverride()
+    {
+    }
+    
 
-
-    // Update is called once per frame
     internal override void UpdateOverride()
     {
         if (!_isSlingRecharged)

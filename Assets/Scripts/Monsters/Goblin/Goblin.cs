@@ -10,8 +10,10 @@ public abstract class Goblin : MonoBehaviour
     {
         _perceptionCollider = GetComponent<CircleCollider2D>();
         Animator = GetComponent<Animator>();
+        StartOverride();
     }
 
+    internal abstract void StartOverride();
     internal abstract void UpdateOverride();
     internal abstract void PlayerIsInRange();
 

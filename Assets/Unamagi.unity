@@ -545,6 +545,8 @@ GameObject:
   - component: {fileID: 1187250307}
   - component: {fileID: 1187250306}
   - component: {fileID: 1187250305}
+  - component: {fileID: 1187250311}
+  - component: {fileID: 1187250312}
   m_Layer: 0
   m_Name: Goblin_Spear
   m_TagString: Untagged
@@ -691,6 +693,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1187250311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1187250304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859fe32acafe6df4cbc85d177ce2c2fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: -3
+--- !u!114 &1187250312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1187250304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aaa5d92ea2056e43b62b776823a6583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  horizontalRayCount: 4
+  verticalRayCount: 4
 --- !u!1001 &1323915820
 Prefab:
   m_ObjectHideFlags: 0
