@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Goblin : MonoBehaviour
 {    
@@ -15,7 +16,7 @@ public abstract class Goblin : MonoBehaviour
 
     internal abstract void StartOverride();
     internal abstract void UpdateOverride();
-    internal abstract void PlayerIsInRange();
+    internal abstract void PlayerIsInRange(GameObject playerObject);
 
     // Update is called once per frame
     void Update()
@@ -28,6 +29,6 @@ public abstract class Goblin : MonoBehaviour
         var playerIsInRange = other.gameObject.CompareTag("Player");
 
         if (playerIsInRange)
-            PlayerIsInRange();
-    }
+            PlayerIsInRange(other.gameObject);
+    }    
 }

@@ -23,7 +23,7 @@ public class SlingGoblin : Goblin
         }
     }
 
-    internal override void PlayerIsInRange()
+    internal override void PlayerIsInRange(GameObject playerObject)
     {
         if (!_isAttacking)
         {

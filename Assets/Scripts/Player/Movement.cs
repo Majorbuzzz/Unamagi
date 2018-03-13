@@ -32,17 +32,11 @@ public class Movement : MonoBehaviour
         collisions.velocityOld = velocity;
 
         if (velocity.y < 0)
-        {
-            DescendSlope(ref velocity);
-        }
+            DescendSlope(ref velocity);        
         if (velocity.x != 0)
-        {
-            HorizontalCollisions(ref velocity);
-        }
+            HorizontalCollisions(ref velocity);        
         if (velocity.y != 0)
-        {
-            VerticalCollisions(ref velocity);
-        }
+            VerticalCollisions(ref velocity);        
 
         transform.Translate(velocity);
     }
@@ -62,7 +56,6 @@ public class Movement : MonoBehaviour
 
             if (hit)
             {
-
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= maxClimbAngle)
@@ -88,9 +81,7 @@ public class Movement : MonoBehaviour
                     rayLength = hit.distance;
 
                     if (collisions.climbingSlope)
-                    {
-                        velocity.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);
-                    }
+                        velocity.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);                    
 
                     collisions.left = directionX == -1;
                     collisions.right = directionX == 1;
@@ -118,9 +109,7 @@ public class Movement : MonoBehaviour
                 rayLength = hit.distance;
 
                 if (collisions.climbingSlope)
-                {
-                    velocity.x = velocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);
-                }
+                    velocity.x = velocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);                
 
                 collisions.below = directionY == -1;
                 collisions.above = directionY == 1;
