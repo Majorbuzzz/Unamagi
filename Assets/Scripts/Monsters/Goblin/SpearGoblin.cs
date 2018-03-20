@@ -3,29 +3,46 @@ using UnityEngine;
 
 public class SpearGoblin : Goblin
 {
+    public Weapon Weapon;
     public float moveSpeed = 5;
     float accelerationTimeGrounded = .1f;
     Vector3 velocity;
     Movement movement;
+    Collider2D spearCollider;
     float velocityXSmoothing;
-    bool isIddle;
     private bool facingRight;
-    private bool _isBreaking;
     private float breakingSpeedInterpolation = 0.0f;
+    private State _state;
 
+
+    private enum State
+    {
+        Idle = 0,
+        Charging = 1,
+        Breaking = 2,
+        MeleeAttack = 3
+    }
+  
     internal override void StartOverride()
     {
-        isIddle = true;
         movement = GetComponent<Movement>();
+        spearCollider = GetComponentInChildren<Collider2D>();
+        Weapon.WeaponHit += () => SpearHit();
+    }
+
+    private void SpearHit()
+    {
+        velocity.x = 0;
+        _state = State.MeleeAttack;
     }
 
     internal override void UpdateOverride()
-    {
-    }
+    { }
+    
 
     internal override void PlayerIsInRange(GameObject playerObject)
     {
-        if (_isBreaking)
+        if (_state == State.Breaking)
         {
             if (velocity.x <= 0.5 && facingRight)
                 Flip();
@@ -34,13 +51,21 @@ public class SpearGoblin : Goblin
             else
                 SlowlyFlipTowardPlayer(playerObject);
         }
-        else if (isIddle)
+        else if (_state == State.Idle)
         {
             Animator.SetBool("PlayerIsInRange", true);
-            MoveTowardPlayer(playerObject);
+            _state = State.Charging;
+            spearCollider.enabled = true;
         }
+        else if (_state == State.Charging)
+            MoveTowardPlayer(playerObject);
+        else if (_state == State.MeleeAttack)
+        {
+            Animator.SetBool("PlayerIsInMeleeRange", true);
 
+        }
     }
+
 
     private void SlowlyFlipTowardPlayer(GameObject playerObject)
     {
@@ -72,7 +97,7 @@ public class SpearGoblin : Goblin
 
     private void Break()
     {
-        _isBreaking = true;
+        _state = State.Breaking;
         Animator.SetBool("IsBreaking",true);
     }
 
@@ -82,7 +107,7 @@ public class SpearGoblin : Goblin
         Animator.SetBool("IsBreaking", false);
         localScale.x *= -1;
         transform.localScale = localScale;
-        _isBreaking = false;
+        _state = State.Charging;
         facingRight = !facingRight;
         breakingSpeedInterpolation = 0.0f;
     }

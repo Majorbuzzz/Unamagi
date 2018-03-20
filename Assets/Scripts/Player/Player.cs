@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
 {
     private Animator animator;
     private Health Health { get; set; }
+    public BoxCollider2D BodyCollider { get; private set; }
+
     Movement movement;
 
     public float jumpHeight = 4;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         Health = GetComponent<Health>();
+        BodyCollider = GetComponent<BoxCollider2D>();
         Health.CurrentValue = 3;
     }
 
@@ -32,13 +35,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         movement = GetComponent<Movement>();
-
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
-    
-    private void FixedUpdate()
+
+    private void Update()
     {
         if (movement.collisions.above || movement.collisions.below)
             velocity.y = 0;
@@ -58,9 +60,9 @@ public class Player : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         movement.Move(velocity * Time.deltaTime);
 
-        if (velocity.x < 0.0f && facingRight == false)
+        if (input.x < 0.0f && facingRight == false)
             FlipPlayer();
-        else if (velocity.x > 0.0f && facingRight)
+        else if (input.x > 0.0f && facingRight)
             FlipPlayer();
 
         bool isWalking = input.x != 0.0f;
@@ -79,10 +81,23 @@ public class Player : MonoBehaviour
             animator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("player_sword");
             Weapon = new Sword();
         }
-        if (other.gameObject.CompareTag("EnemyAttack"))
+
+        if (other.gameObject.CompareTag("EnemyAttack") || other.gameObject.CompareTag("EnemyRangeAttack"))
         {
-            this.Health.ChangeHealth(-.25f);
-            Destroy(other.gameObject);
+            Health.ChangeHealth(-.25f);
+            animator.SetTrigger("Hurt");
+            var direction = facingRight ? 1 : -1;
+            velocity.x = direction * 8f;
+            movement.Move(velocity * Time.deltaTime);
+           
+            if (other.tag.Contains("Projectile"))
+                Destroy(other.gameObject);
+            else
+            {
+                Weapon weapon = other.GetComponent<Weapon>();
+                if (weapon != null)
+                    weapon.TriggerWeaponHit();
+            }
         }
     }
 

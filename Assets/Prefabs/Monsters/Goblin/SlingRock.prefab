@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 68929359148542422}
   m_Layer: 0
   m_Name: SlingRock
-  m_TagString: EnemyAttack
+  m_TagString: EnemyRangeAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -286,6 +286,7 @@
     <Compile Include="Assets\2DTilezoneFiles\Scripts\PixelPerfectCamera.cs" />
     <Compile Include="Assets\2DTilezoneFiles\Scripts\TileInfo.cs" />
     <Compile Include="Assets\Scripts\CameraBehavior.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\Weapon.cs" />
     <Compile Include="Assets\Scripts\Monsters\Goblin\Goblin.cs" />
     <Compile Include="Assets\Scripts\Monsters\Goblin\SlingGoblin.cs" />
     <Compile Include="Assets\Scripts\Monsters\Goblin\SpearGoblin.cs" />
@@ -294,7 +295,6 @@
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollision.cs" />
     <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
-    <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\2DTilezoneFiles\CollisionData\dirt-tiles_collision_data.cd" />

@@ -3,13 +3,11 @@ using UnityEngine;
 
 public abstract class Goblin : MonoBehaviour
 {    
-    private CircleCollider2D _perceptionCollider;
     internal Animator Animator;
-
+    
     // Use this for initialization
     void Start()
     {
-        _perceptionCollider = GetComponent<CircleCollider2D>();
         Animator = GetComponent<Animator>();
         StartOverride();
     }
