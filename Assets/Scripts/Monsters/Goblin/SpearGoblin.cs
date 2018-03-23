@@ -25,15 +25,14 @@ public class SpearGoblin : Goblin
   
     internal override void StartOverride()
     {
-        movement = GetComponent<Movement>();
+        movement = GetComponentInChildren<Movement>();
         spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
     }
 
     private void SpearHit()
     {
-        velocity.x = 0;
-        _state = State.MeleeAttack;
+        _state = State.Breaking;
     }
 
     internal override void UpdateOverride()
@@ -59,13 +58,9 @@ public class SpearGoblin : Goblin
         }
         else if (_state == State.Charging)
             MoveTowardPlayer(playerObject);
-        else if (_state == State.MeleeAttack)
-        {
+        else if (_state == State.MeleeAttack)        
             Animator.SetBool("PlayerIsInMeleeRange", true);
-
-        }
     }
-
 
     private void SlowlyFlipTowardPlayer(GameObject playerObject)
     {
@@ -76,8 +71,8 @@ public class SpearGoblin : Goblin
         else if (playerDirection == -1 && facingRight)
             Break();
 
-        velocity.x = Mathf.Lerp(velocity.x, 0, breakingSpeedInterpolation); //Mathf.SmoothDamp(velocity.x, 0, ref velocityXSmoothing, 0.1f);
-        breakingSpeedInterpolation += 0.5f * Time.deltaTime;
+        velocity.x = Mathf.Lerp(velocity.x, 0, breakingSpeedInterpolation);
+        breakingSpeedInterpolation += 0.1f * Time.deltaTime;
         movement.Move(velocity * Time.deltaTime);
     }
 

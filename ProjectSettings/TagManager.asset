@@ -6,7 +6,7 @@ TagManager:
   tags:
   - sword
   - EnemyAttack
-  - EnemyRangeAttack
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,10 +19,10 @@ TagManager:
   - 
   - 
   - 
+  - Player
   - 
   - 
-  - 
-  - 
+  - Monster
   - 
   - Foreground
   - Background
@@ -52,6 +52,12 @@ TagManager:
     locked: 0
   - name: Projectiles
     uniqueID: 630806915
+    locked: 0
+  - name: Monster
+    uniqueID: 2849990235
+    locked: 0
+  - name: Player
+    uniqueID: 2930508825
     locked: 0
   - name: UI
     uniqueID: 3682404239

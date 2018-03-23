@@ -3,23 +3,29 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Animator animator;
-    private Health Health { get; set; }
     public BoxCollider2D BodyCollider { get; private set; }
-
-    Movement movement;
-
     public float jumpHeight = 4;
     public float timeToJumpApex = .4f;
+
+    private Animator animator;
+    private Health Health { get; set; }
+    Movement movement;
     float accelerationTimeAirborne = .2f;
     float accelerationTimeGrounded = .1f;
     float moveSpeed = 6;
-
     float gravity;
     float jumpVelocity;
     Vector3 velocity;
     float velocityXSmoothing;
     private bool facingRight;
+
+    private SpriteRenderer mySpriteRenderer;
+    private readonly Immunity immunity;
+
+    public Player()
+    {
+        immunity = new Immunity();
+    }
 
     internal Sword Weapon { get; private set; }
 
@@ -28,6 +34,8 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         Health = GetComponent<Health>();
         BodyCollider = GetComponent<BoxCollider2D>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
+        immunity.SpriteRenderer = mySpriteRenderer;
         Health.CurrentValue = 3;
     }
 
@@ -42,6 +50,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        immunity.DoYourThing();
+        
         if (movement.collisions.above || movement.collisions.below)
             velocity.y = 0;
 
@@ -82,24 +92,21 @@ public class Player : MonoBehaviour
             Weapon = new Sword();
         }
 
-        if (other.gameObject.CompareTag("EnemyAttack") || other.gameObject.CompareTag("EnemyRangeAttack"))
+        if (other.gameObject.CompareTag("Enemy") && immunity.NotImmune)
         {
             Health.ChangeHealth(-.25f);
             animator.SetTrigger("Hurt");
             var direction = facingRight ? 1 : -1;
             velocity.x = direction * 8f;
             movement.Move(velocity * Time.deltaTime);
-           
-            if (other.tag.Contains("Projectile"))
-                Destroy(other.gameObject);
-            else
-            {
-                Weapon weapon = other.GetComponent<Weapon>();
-                if (weapon != null)
-                    weapon.TriggerWeaponHit();
-            }
+            immunity.Start();
+
+            Weapon weapon = other.GetComponent<Weapon>();
+            if (weapon != null)
+                weapon.TriggerWeaponHit();
         }
     }
+
 
     private void FlipPlayer()
     {
