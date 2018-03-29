@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SpearGoblin : Goblin
+public class SpearGoblin : Monster
 {
     public Weapon Weapon;
     public float moveSpeed = 5;
@@ -15,19 +15,25 @@ public class SpearGoblin : Goblin
     private State _state;
 
 
-    private enum State
+    internal enum State
     {
         Idle = 0,
         Charging = 1,
         Breaking = 2,
         MeleeAttack = 3
     }
-  
+
     internal override void StartOverride()
     {
         movement = GetComponentInChildren<Movement>();
         spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
+    }
+
+    internal override void YouGotHurt(GameObject playerObject)
+    {
+        velocity.x = 0;
+        base.YouGotHurt(playerObject);
     }
 
     private void SpearHit()
@@ -37,7 +43,6 @@ public class SpearGoblin : Goblin
 
     internal override void UpdateOverride()
     { }
-    
 
     internal override void PlayerIsInRange(GameObject playerObject)
     {
@@ -58,7 +63,7 @@ public class SpearGoblin : Goblin
         }
         else if (_state == State.Charging)
             MoveTowardPlayer(playerObject);
-        else if (_state == State.MeleeAttack)        
+        else if (_state == State.MeleeAttack)
             Animator.SetBool("PlayerIsInMeleeRange", true);
     }
 
@@ -93,7 +98,7 @@ public class SpearGoblin : Goblin
     private void Break()
     {
         _state = State.Breaking;
-        Animator.SetBool("IsBreaking",true);
+        Animator.SetBool("IsBreaking", true);
     }
 
     private void Flip()

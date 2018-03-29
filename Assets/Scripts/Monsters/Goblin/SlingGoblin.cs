@@ -1,17 +1,12 @@
 ﻿using UnityEngine;
 
-public class SlingGoblin : Goblin
+public class SlingGoblin : Monster
 {
     public Rigidbody2D _slingRockPrefab;
     private bool _isSlingRecharged;
     private bool _isAttacking;
     private float timer = 1f;
-    
-    internal override void StartOverride()
-    {
-    }
-    
-
+        
     internal override void UpdateOverride()
     {
         if (!_isSlingRecharged)
@@ -32,7 +27,7 @@ public class SlingGoblin : Goblin
         }
         if (_isSlingRecharged)
         {
-            var slingLocation = new Vector3(transform.localPosition.x-0.22f, transform.localPosition.y - 0.22f, 0);
+            var slingLocation = new Vector3(transform.localPosition.x - 0.22f, transform.localPosition.y - 0.22f, 0);
             Rigidbody2D slingRock = Instantiate(_slingRockPrefab, slingLocation, Quaternion.identity);
             slingRock.velocity = new Vector2(-6f, 7);
             _isSlingRecharged = false;

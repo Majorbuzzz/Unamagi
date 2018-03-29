@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,7 +9,7 @@ public class Player : MonoBehaviour
     public float timeToJumpApex = .4f;
 
     private Animator animator;
-    private Health Health { get; set; }
+    private PlayerHealth Health { get; set; }
     Movement movement;
     float accelerationTimeAirborne = .2f;
     float accelerationTimeGrounded = .1f;
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        Health = GetComponent<Health>();
+        Health = GetComponent<PlayerHealth>();
         BodyCollider = GetComponent<BoxCollider2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         immunity.SpriteRenderer = mySpriteRenderer;
@@ -51,12 +52,55 @@ public class Player : MonoBehaviour
     private void Update()
     {
         immunity.DoYourThing();
-        
+
         if (movement.collisions.above || movement.collisions.below)
             velocity.y = 0;
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Jump();
+        Move(input);
+        Flip(input);    
+        Attack();
+    }
 
+    private void Attack()
+    {
+        StartCoroutine("MeleeHandler");
+    }
+
+    private IEnumerator MeleeHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            animator.SetTrigger("Attack");
+            GetComponentInChildren<CircleCollider2D>().enabled = true;
+            yield return new WaitForSeconds(0.5f); 
+            GetComponentInChildren<CircleCollider2D>().enabled = false;
+        }
+        yield return null;
+    }
+
+    private void Flip(Vector2 input)
+    {
+        if (input.x < 0.0f && facingRight == false)
+            FlipPlayer();
+        else if (input.x > 0.0f && facingRight)
+            FlipPlayer();
+    }
+
+    private void Move(Vector2 input)
+    {
+        float targetVelocityX = input.x * moveSpeed;
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (movement.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        velocity.y += gravity * Time.deltaTime;
+        movement.Move(velocity * Time.deltaTime);
+
+        bool isWalking = input.x != 0.0f;
+        animator.SetBool("IsWalking", isWalking);
+    }
+
+    private void Jump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && movement.collisions.below)
         {
             velocity.y = jumpVelocity;
@@ -64,22 +108,6 @@ public class Player : MonoBehaviour
         }
         if (movement.collisions.below && velocity.y == 0)
             animator.SetBool("IsJumping", false);
-
-        float targetVelocityX = input.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (movement.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
-        velocity.y += gravity * Time.deltaTime;
-        movement.Move(velocity * Time.deltaTime);
-
-        if (input.x < 0.0f && facingRight == false)
-            FlipPlayer();
-        else if (input.x > 0.0f && facingRight)
-            FlipPlayer();
-
-        bool isWalking = input.x != 0.0f;
-        animator.SetBool("IsWalking", isWalking);
-
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-            animator.SetTrigger("Attack");
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -106,7 +134,6 @@ public class Player : MonoBehaviour
                 weapon.TriggerWeaponHit();
         }
     }
-
 
     private void FlipPlayer()
     {
