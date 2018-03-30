@@ -26,14 +26,4 @@ public abstract class Monster : MonoBehaviour
     {
         UpdateOverride();
     }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        var playerIsInRange = other.gameObject.CompareTag("Player");
-
-        if (playerIsInRange)
-            PlayerIsInRange(other.gameObject);
-
-
-    }
 }
