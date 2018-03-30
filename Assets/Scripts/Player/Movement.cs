@@ -15,13 +15,12 @@ public class Movement : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
-    BoxCollider2D collider;
+    public BoxCollider2D collider;
     RaycastOrigins raycastOrigins;
     public CollisionInfo collisions;
 
     void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
         CalculateRaySpacing();
     }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public abstract class Monster : MonoBehaviour
 {
@@ -30,10 +29,6 @@ public abstract class Monster : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        var playerAttack = other.gameObject.CompareTag("PlayerAttack");
-        if (playerAttack)
-            YouGotHurt(other.gameObject);
-
         var playerIsInRange = other.gameObject.CompareTag("Player");
 
         if (playerIsInRange)
