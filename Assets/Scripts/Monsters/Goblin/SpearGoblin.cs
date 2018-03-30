@@ -1,19 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-public class SpearGoblin : MonsterBody
+public class SpearGoblin : Monster
 {
     public Weapon Weapon;
     public float moveSpeed = 5;
     float accelerationTimeGrounded = .1f;
     Vector3 velocity;
     Movement movement;
-    public Collider2D spearCollider;
+    Collider2D spearCollider;
     float velocityXSmoothing;
     private bool facingRight;
     private float breakingSpeedInterpolation = 0.0f;
     private State _state;
-    
+
+
     internal enum State
     {
         Idle = 0,
@@ -24,12 +25,10 @@ public class SpearGoblin : MonsterBody
 
     internal override void StartOverride()
     {
-        movement = GetComponent<Movement>();
+        movement = GetComponentInChildren<Movement>();
+        spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
     }
-
-    internal override void UpdateOverride()
-    { }
 
     internal override void YouGotHurt(GameObject playerObject)
     {
@@ -40,7 +39,10 @@ public class SpearGoblin : MonsterBody
     private void SpearHit()
     {
         _state = State.Breaking;
-    }    
+    }
+
+    internal override void UpdateOverride()
+    { }
 
     internal override void PlayerIsInRange(GameObject playerObject)
     {
@@ -109,5 +111,4 @@ public class SpearGoblin : MonsterBody
         facingRight = !facingRight;
         breakingSpeedInterpolation = 0.0f;
     }
-
 }
