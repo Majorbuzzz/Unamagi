@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SlingGoblin : Monster
+public class SlingGoblin : MonsterBody
 {
     public Rigidbody2D _slingRockPrefab;
     private bool _isSlingRecharged;
@@ -32,7 +32,9 @@ public class SlingGoblin : Monster
             slingRock.velocity = new Vector2(-6f, 7);
             _isSlingRecharged = false;
         }
+    }
 
-
+    internal override void StartOverride()
+    {
     }
 }
