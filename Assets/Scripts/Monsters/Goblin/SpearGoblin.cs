@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpearGoblin : Monster
 {
@@ -14,17 +13,18 @@ public class SpearGoblin : Monster
     private float breakingSpeedInterpolation = 0.0f;
     private State _state;
 
-
     internal enum State
     {
         Idle = 0,
         Charging = 1,
         Breaking = 2,
-        MeleeAttack = 3
+        MeleeAttack = 3,
+        Die = 4
     }
 
     internal override void StartOverride()
     {
+        Immunity.SpriteRenderer = GetComponent<SpriteRenderer>();
         movement = GetComponentInChildren<Movement>();
         spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
@@ -32,7 +32,7 @@ public class SpearGoblin : Monster
 
     internal override void YouGotHurt(GameObject playerObject)
     {
-        velocity.x = 0;
+        _state = State.Idle;
         base.YouGotHurt(playerObject);
     }
 
@@ -42,11 +42,14 @@ public class SpearGoblin : Monster
     }
 
     internal override void UpdateOverride()
-    { }
+    {
+    }
 
     internal override void PlayerIsInRange(GameObject playerObject)
     {
-        if (_state == State.Breaking)
+        if (Immunity.IsImmune)
+            Immunity.DoYourThing();
+        else if (_state == State.Breaking)
         {
             if (velocity.x <= 0.5 && facingRight)
                 Flip();
@@ -110,5 +113,11 @@ public class SpearGoblin : Monster
         _state = State.Charging;
         facingRight = !facingRight;
         breakingSpeedInterpolation = 0.0f;
+    }
+
+    internal override void Die()
+    {
+        _state = State.Die;
+        velocity.x = 0;
     }
 }

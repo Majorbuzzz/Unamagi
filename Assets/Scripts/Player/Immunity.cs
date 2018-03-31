@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class Immunity : MonoBehaviour
+public class Immunity
 {
     private float timerImmunity = 0f;
     private int delay = 2;
@@ -11,7 +11,9 @@ public class Immunity : MonoBehaviour
     public SpriteRenderer SpriteRenderer { get; internal set; }
 
     public bool NotImmune { get { return timerImmunity <= 0; } }
-    
+
+    public bool IsImmune { get { return timerImmunity > 0; } }
+
     internal void DoYourThing()
     {
         if (timerImmunity >= Time.deltaTime)
@@ -24,7 +26,6 @@ public class Immunity : MonoBehaviour
             timerImmunity = 0;
             SpriteRenderer.enabled = true;
         }
-
     }
 
     void Flash()
@@ -43,8 +44,8 @@ public class Immunity : MonoBehaviour
             counter++;
     }
 
-    internal void Start()
+    internal void Start(int time)
     {
-        timerImmunity += 2;
+        timerImmunity += time;
     }
 }

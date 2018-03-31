@@ -35,4 +35,8 @@ public class SlingGoblin : Monster
 
 
     }
+
+    internal override void Die()
+    {
+    }
 }

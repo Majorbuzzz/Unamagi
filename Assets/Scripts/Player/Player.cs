@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             var direction = facingRight ? 1 : -1;
             velocity.x = direction * 8f;
             movement.Move(velocity * Time.deltaTime);
-            immunity.Start();
+            immunity.Start(2);
 
             Weapon weapon = other.GetComponent<Weapon>();
             if (weapon != null)

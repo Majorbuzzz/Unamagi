@@ -19,7 +19,7 @@ public class CameraBehavior : MonoBehaviour
     void Update()
     {
         float posX = Mathf.SmoothDamp(transform.position.x, Player.transform.position.x+2, ref _velocity.x, SmoothTimeX);
-        float posY = Mathf.SmoothDamp(transform.position.y, Player.transform.position.y+3, ref _velocity.y, SmoothTimeY);
+        float posY = Mathf.SmoothDamp(transform.position.y, Player.transform.position.y+2, ref _velocity.y, SmoothTimeY);
         transform.position = new Vector3(posX, posY, transform.position.z);
     }
 }
