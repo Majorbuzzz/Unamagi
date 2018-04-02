@@ -21,13 +21,8 @@ public class Player : MonoBehaviour
     private bool facingRight;
 
     private SpriteRenderer mySpriteRenderer;
-    private readonly Immunity immunity;
-
-    public Player()
-    {
-        immunity = new Immunity();
-    }
-
+    private Immunity immunity;
+    
     internal Sword Weapon { get; private set; }
 
     void Awake()
@@ -36,7 +31,7 @@ public class Player : MonoBehaviour
         Health = GetComponent<PlayerHealth>();
         BodyCollider = GetComponent<BoxCollider2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        immunity.SpriteRenderer = mySpriteRenderer;
+        immunity = new Immunity(mySpriteRenderer);
         Health.CurrentValue = 3;
     }
 

@@ -4,14 +4,14 @@ using UnityEngine;
 public abstract class Monster : MonoBehaviour
 {
     private MonsterHealth Health;
+    public SpriteRenderer Sprite;
     internal Animator Animator;
-    internal readonly Immunity Immunity;
-
-    protected Monster()
+    internal Immunity Immunity;
+    
+    void Awake()
     {
-        Immunity = new Immunity();
+        Immunity = new Immunity(Sprite);
     }
-
     void Start()
     {
         Animator = GetComponent<Animator>();
@@ -20,7 +20,13 @@ public abstract class Monster : MonoBehaviour
     }
 
     internal virtual void StartOverride() { }
-    internal abstract void UpdateOverride();
+
+    internal virtual void UpdateOverride()
+    {
+        if (Immunity.IsImmune)
+            Immunity.DoYourThing();
+    }
+
     internal abstract void Die();
     internal abstract void PlayerIsInRange(GameObject playerObject);
 

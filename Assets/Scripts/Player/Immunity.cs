@@ -7,8 +7,12 @@ public class Immunity
     private int delay = 2;
     int counter;
     bool toggle = false;
+    private SpriteRenderer SpriteRenderer;
 
-    public SpriteRenderer SpriteRenderer { get; internal set; }
+    public Immunity(SpriteRenderer spriteRenderer)
+    {
+        SpriteRenderer = spriteRenderer;
+    }
 
     public bool NotImmune { get { return timerImmunity <= 0; } }
 

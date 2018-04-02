@@ -16,6 +16,7 @@ public class SlingGoblin : Monster
             _isSlingRecharged = true;
             timer = 5F;
         }
+        base.UpdateOverride();
     }
 
     internal override void PlayerIsInRange(GameObject playerObject)
@@ -32,7 +33,6 @@ public class SlingGoblin : Monster
             slingRock.velocity = new Vector2(-6f, 7);
             _isSlingRecharged = false;
         }
-
 
     }
 

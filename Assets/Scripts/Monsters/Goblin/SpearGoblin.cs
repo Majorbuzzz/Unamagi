@@ -24,7 +24,6 @@ public class SpearGoblin : Monster
 
     internal override void StartOverride()
     {
-        Immunity.SpriteRenderer = GetComponent<SpriteRenderer>();
         movement = GetComponentInChildren<Movement>();
         spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
@@ -41,15 +40,9 @@ public class SpearGoblin : Monster
         _state = State.Breaking;
     }
 
-    internal override void UpdateOverride()
-    {
-    }
-
     internal override void PlayerIsInRange(GameObject playerObject)
     {
-        if (Immunity.IsImmune)
-            Immunity.DoYourThing();
-        else if (_state == State.Breaking)
+        if (_state == State.Breaking)
         {
             if (velocity.x <= 0.5 && facingRight)
                 Flip();
@@ -80,7 +73,7 @@ public class SpearGoblin : Monster
             Break();
 
         velocity.x = Mathf.Lerp(velocity.x, 0, breakingSpeedInterpolation);
-        breakingSpeedInterpolation += 0.1f * Time.deltaTime;
+        breakingSpeedInterpolation += 0.05f * Time.deltaTime;
         movement.Move(velocity * Time.deltaTime);
     }
 
