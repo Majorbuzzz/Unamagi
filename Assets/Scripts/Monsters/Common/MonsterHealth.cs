@@ -15,12 +15,15 @@ public class MonsterHealth : MonoBehaviour
 
     void Update()
     {
-        healthBar.fillAmount = CurrentValue / Max;
+        if (CurrentValue == Max)
+            healthBar.fillAmount = 0;
+        else
+            healthBar.fillAmount = CurrentValue / Max;
     }
 
     public void ChangeValue(float value)
     {
-        CurrentValue += value;      
+        CurrentValue += value;
     }
 
     public bool IsDead
