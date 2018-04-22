@@ -44,7 +44,7 @@ public abstract class Monster : MonoBehaviour
     {
         UpdateOverride();
         if (Health.IsDead)
-            StartCoroutine("Dying");          
+            StartCoroutine("Dying");
     }
     
 

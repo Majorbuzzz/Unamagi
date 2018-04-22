@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -253,6 +255,9 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
@@ -285,14 +290,15 @@
     <Compile Include="Assets\2DTilezoneFiles\Scripts\AutoColliderGenerator.cs" />
     <Compile Include="Assets\2DTilezoneFiles\Scripts\PixelPerfectCamera.cs" />
     <Compile Include="Assets\2DTilezoneFiles\Scripts\TileInfo.cs" />
-    <Compile Include="Assets\MonsterBody.cs" />
-    <Compile Include="Assets\MonsterPerception.cs" />
     <Compile Include="Assets\Scripts\CameraBehavior.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\Goblin\AxeGoblin.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\Goblin\SlingGoblin.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\Goblin\SpearGoblin.cs" />
     <Compile Include="Assets\Scripts\Monsters\Common\Monster.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\MonsterBody.cs" />
     <Compile Include="Assets\Scripts\Monsters\Common\MonsterHealth.cs" />
+    <Compile Include="Assets\Scripts\Monsters\Common\MonsterPerception.cs" />
     <Compile Include="Assets\Scripts\Monsters\Common\Weapon.cs" />
-    <Compile Include="Assets\Scripts\Monsters\Goblin\SlingGoblin.cs" />
-    <Compile Include="Assets\Scripts\Monsters\Goblin\SpearGoblin.cs" />
     <Compile Include="Assets\Scripts\Player\Immunity.cs" />
     <Compile Include="Assets\Scripts\Player\Movement.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />

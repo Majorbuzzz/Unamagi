@@ -53,28 +53,28 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Jump();
+        Crouch();
         Move(input);
         Flip(input);    
         Attack();
     }
 
+    private void Crouch()
+    {        
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            animator.SetBool("IsCrouching", true);
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+            animator.SetBool("IsCrouching", false);
+    }
+
     private void Attack()
     {
-        StartCoroutine("MeleeHandler");
-    }
-
-    private IEnumerator MeleeHandler()
-    {
         if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            animator.SetTrigger("Attack");
-            GetComponentInChildren<CircleCollider2D>().enabled = true;
-            yield return new WaitForSeconds(0.5f); 
-            GetComponentInChildren<CircleCollider2D>().enabled = false;
-        }
-        yield return null;
+            animator.SetBool("Attack", true);
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+            animator.SetBool("Attack",false);
     }
-
+    
     private void Flip(Vector2 input)
     {
         if (input.x < 0.0f && facingRight == false)

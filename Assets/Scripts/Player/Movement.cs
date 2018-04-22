@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
-    public BoxCollider2D collider;
+    public BoxCollider2D colliders;
     RaycastOrigins raycastOrigins;
     public CollisionInfo collisions;
 
@@ -180,7 +180,7 @@ public class Movement : MonoBehaviour
 
     void UpdateRaycastOrigins()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliders.bounds;
         bounds.Expand(skinWidth * -2);
 
         raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
@@ -191,7 +191,7 @@ public class Movement : MonoBehaviour
 
     void CalculateRaySpacing()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliders.bounds;
         bounds.Expand(skinWidth * -2);
 
         horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);

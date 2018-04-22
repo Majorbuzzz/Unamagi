@@ -1,4 +1,4 @@
 sceneSetups:
-- path: C:/Users/Public/Documents/Unity Projects/CodePanda/Pixel2018CP/CodePanda/Assets/Scenes/CodePanda2018.unity
+- path: Assets/Unamagi.unity
   isLoaded: 1
   isActive: 1
