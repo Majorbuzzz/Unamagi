@@ -24,9 +24,12 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer mySpriteRenderer;
     private Immunity immunity;
-    private bool canJump;
+    private bool canJump; 
 
     internal Sword Weapon { get; private set; }
+    public Vector2 MovementInput { get; private set; }
+    public bool JumpKeyIsDown { get; private set; }
+    public bool JumpKeyIsUp { get; private set; }
 
     void Awake()
     {
@@ -47,29 +50,33 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
 
-    private void FixedUpdate()
-    {
-
-        if (movement.collisions.above || movement.collisions.below)
-            velocity.y = 0;
-
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Jump();
-        Crouch();
-        Move(input);
-        Flip(input);
-        Attack();
-    }
 
     private void Update()
     {
         immunity.DoYourThing();
+        MovementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        JumpKeyIsDown = Input.GetKey(KeyCode.Space);
+        JumpKeyIsUp = Input.GetKeyUp(KeyCode.Space);
 
         if (movement.collisions.below)
         {
             jumpTimeCounter = jumpTime;
             canJump = true;
         }
+
+        Attack();
+        Crouch();
+    }
+
+    private void FixedUpdate()
+    {
+        if (movement.collisions.above || movement.collisions.below)
+            velocity.y = 0;
+
+       
+        Jump();
+        Move();
+        Flip();
     }
 
     private void Crouch()
@@ -87,29 +94,29 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftControl))
             animator.SetBool("Attack", false);
     }
-
-    private void Flip(Vector2 input)
+      
+    private void Flip()
     {
-        if (input.x < 0.0f && facingRight == false)
+        if (MovementInput.x < 0.0f && facingRight == false)
             FlipPlayer();
-        else if (input.x > 0.0f && facingRight)
+        else if (MovementInput.x > 0.0f && facingRight)
             FlipPlayer();
     }
 
-    private void Move(Vector2 input)
+    private void Move()
     {
-        float targetVelocityX = input.x * moveSpeed;
+        float targetVelocityX = MovementInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (movement.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         movement.Move(velocity * Time.deltaTime);
 
-        bool isWalking = input.x != 0.0f;
+        bool isWalking = MovementInput.x != 0.0f;
         animator.SetBool("IsWalking", isWalking);
     }
 
     private void Jump()
     {
-        if (Input.GetKey(KeyCode.Space) && canJump)
+        if (JumpKeyIsDown && canJump)
         {
             if (jumpTimeCounter > 0)
             {
@@ -119,7 +126,7 @@ public class Player : MonoBehaviour
                 animator.SetBool("IsJumping", true);
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (JumpKeyIsUp)
         {
             canJump = false;
             jumpTimeCounter = 0;

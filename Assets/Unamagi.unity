@@ -784,7 +784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 0.75
   timeToJumpApex: 0.2
-  jumpTime: 0.25
+  jumpTime: 0.2
   jumpTimeCounter: 0
 --- !u!114 &1576022982
 MonoBehaviour:
