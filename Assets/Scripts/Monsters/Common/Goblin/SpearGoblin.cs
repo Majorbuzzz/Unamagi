@@ -1,116 +1,71 @@
 ﻿using UnityEngine;
 
-public class SpearGoblin : Monster
+public class SpearGoblin : MeleeGoblin
 {
-    public Weapon Weapon;
-    public float moveSpeed = 5;
-    float accelerationTimeGrounded = .1f;
-    Vector3 velocity;
-    Movement movement;
     Collider2D spearCollider;
-    float velocityXSmoothing;
-    private bool facingRight;
     private float breakingSpeedInterpolation = 0.0f;
-    private State _state;
-
-    internal enum State
-    {
-        Idle = 0,
-        Charging = 1,
-        Breaking = 2,
-        MeleeAttack = 3,
-        Die = 4
-    }
 
     internal override void StartOverride()
     {
-        movement = GetComponentInChildren<Movement>();
         spearCollider = GetComponentInChildren<Collider2D>();
         Weapon.WeaponHit += () => SpearHit();
-    }
-
-    internal override void YouGotHurt(GameObject playerObject)
-    {
-        _state = State.Idle;
-        base.YouGotHurt(playerObject);
+        base.StartOverride();
     }
 
     private void SpearHit()
     {
-        _state = State.Breaking;
+        CurrentState = State.Breaking;
     }
 
     internal override void PlayerIsInRange(GameObject playerObject)
     {
-        if (_state == State.Breaking)
+        if (CurrentState == State.Breaking)
         {
-            if (velocity.x <= 0.5 && facingRight)
+            if (Velocity.x <= 0.5 && FacingRight)
                 Flip();
-            if (velocity.x >= -0.5 && !facingRight)
+            if (Velocity.x >= -0.5 && !FacingRight)
                 Flip();
             else
                 SlowlyFlipTowardPlayer(playerObject);
         }
-        else if (_state == State.Idle)
+
+        base.PlayerIsInRange(playerObject);
+    }
+
+    protected override void Flip()
+    {
+        if (Velocity.x <= 0.5 && FacingRight)
         {
-            Animator.SetBool("PlayerIsInRange", true);
-            _state = State.Charging;
-            spearCollider.enabled = true;
+            breakingSpeedInterpolation = 0.0f;
+            base.Flip();
         }
-        else if (_state == State.Charging)
-            MoveTowardPlayer(playerObject);
-        else if (_state == State.MeleeAttack)
-            Animator.SetBool("PlayerIsInMeleeRange", true);
+        else if (Velocity.x >= -0.5 && !FacingRight)
+        {
+            breakingSpeedInterpolation = 0.0f;
+            base.Flip();
+        }
+        else
+            Break();
+
     }
 
     private void SlowlyFlipTowardPlayer(GameObject playerObject)
     {
         float playerDirection = Mathf.Sign(playerObject.transform.position.x - transform.position.x);
 
-        if (playerDirection == 1 && !facingRight)
+        if (playerDirection == 1 && !FacingRight)
             Break();
-        else if (playerDirection == -1 && facingRight)
+        else if (playerDirection == -1 && FacingRight)
             Break();
 
-        velocity.x = Mathf.Lerp(velocity.x, 0, breakingSpeedInterpolation);
+        Velocity.x = Mathf.Lerp(Velocity.x, 0, breakingSpeedInterpolation);
         breakingSpeedInterpolation += 0.05f * Time.deltaTime;
-        movement.Move(velocity * Time.deltaTime);
-    }
-
-    private void MoveTowardPlayer(GameObject playerObject)
-    {
-        float playerDirection = Mathf.Sign(playerObject.transform.position.x - transform.position.x);
-
-        if (playerDirection == 1 && !facingRight)
-            Break();
-        else if (playerDirection == -1 && facingRight)
-            Break();
-
-        float targetVelocityX = moveSpeed * playerDirection;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTimeGrounded);
-        movement.Move(velocity * Time.deltaTime);
+        Movement.Move(Velocity * Time.deltaTime);
     }
 
     private void Break()
     {
-        _state = State.Breaking;
+        CurrentState = State.Breaking;
         Animator.SetBool("IsBreaking", true);
-    }
-
-    private void Flip()
-    {
-        Vector2 localScale = gameObject.transform.localScale;
-        Animator.SetBool("IsBreaking", false);
-        localScale.x *= -1;
-        transform.localScale = localScale;
-        _state = State.Charging;
-        facingRight = !facingRight;
-        breakingSpeedInterpolation = 0.0f;
-    }
-
-    internal override void Die()
-    {
-        _state = State.Die;
-        velocity.x = 0;
     }
 }
