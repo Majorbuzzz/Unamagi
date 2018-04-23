@@ -48,7 +48,7 @@ public class Immunity
             counter++;
     }
 
-    internal void Start(int time)
+    internal void Start(float time)
     {
         timerImmunity += time;
     }

@@ -7,6 +7,7 @@ public abstract class Monster : MonoBehaviour
     public SpriteRenderer Sprite;
     internal Animator Animator;
     internal Immunity Immunity;
+    public float immunityTime = 0.5f;
     
     void Awake()
     {
@@ -34,7 +35,7 @@ public abstract class Monster : MonoBehaviour
     {
         if (Immunity.NotImmune)
         {
-            Immunity.Start(1);
+            Immunity.Start(immunityTime);
             Health.ChangeValue(-3);
             Animator.SetTrigger("Hurt");
         }

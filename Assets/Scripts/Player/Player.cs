@@ -5,8 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public BoxCollider2D BodyCollider { get; private set; }
-    public float jumpHeight = 4;
+    public float jumpHeight = 2;
     public float timeToJumpApex = .4f;
+    public float jumpTime;
+    public float jumpTimeCounter;
 
     private Animator animator;
     private PlayerHealth Health { get; set; }
@@ -22,7 +24,8 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer mySpriteRenderer;
     private Immunity immunity;
-    
+    private bool canJump;
+
     internal Sword Weapon { get; private set; }
 
     void Awake()
@@ -44,9 +47,8 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        immunity.DoYourThing();
 
         if (movement.collisions.above || movement.collisions.below)
             velocity.y = 0;
@@ -55,12 +57,23 @@ public class Player : MonoBehaviour
         Jump();
         Crouch();
         Move(input);
-        Flip(input);    
+        Flip(input);
         Attack();
     }
 
+    private void Update()
+    {
+        immunity.DoYourThing();
+
+        if (movement.collisions.below)
+        {
+            jumpTimeCounter = jumpTime;
+            canJump = true;
+        }
+    }
+
     private void Crouch()
-    {        
+    {
         if (Input.GetKeyDown(KeyCode.DownArrow))
             animator.SetBool("IsCrouching", true);
         else if (Input.GetKeyUp(KeyCode.DownArrow))
@@ -72,9 +85,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
             animator.SetBool("Attack", true);
         if (Input.GetKeyUp(KeyCode.LeftControl))
-            animator.SetBool("Attack",false);
+            animator.SetBool("Attack", false);
     }
-    
+
     private void Flip(Vector2 input)
     {
         if (input.x < 0.0f && facingRight == false)
@@ -96,11 +109,22 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && movement.collisions.below)
+        if (Input.GetKey(KeyCode.Space) && canJump)
         {
-            velocity.y = jumpVelocity;
-            animator.SetBool("IsJumping", true);
+            if (jumpTimeCounter > 0)
+            {
+                velocity.y = jumpVelocity;
+                jumpTimeCounter -= Time.deltaTime;
+                canJump = true;
+                animator.SetBool("IsJumping", true);
+            }
         }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            canJump = false;
+            jumpTimeCounter = 0;
+        }
+
         if (movement.collisions.below && velocity.y == 0)
             animator.SetBool("IsJumping", false);
     }
