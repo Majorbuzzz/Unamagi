@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
 
     float maxClimbAngle = 80;
     float maxDescendAngle = 80;
+    float minDescendAngle = 20;
 
     float horizontalRaySpacing;
     float verticalRaySpacing;
@@ -158,7 +159,7 @@ public class Movement : MonoBehaviour
         if (hit)
         {
             float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-            if (slopeAngle != 0 && slopeAngle <= maxDescendAngle)
+            if (slopeAngle != 0 && slopeAngle <= maxDescendAngle && slopeAngle >= minDescendAngle)
             {
                 if (Mathf.Sign(hit.normal.x) == directionX)
                 {

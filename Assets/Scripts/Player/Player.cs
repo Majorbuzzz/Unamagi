@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer mySpriteRenderer;
     private Immunity immunity;
-    private bool canJump; 
+    private bool canJump;
 
     internal Sword Weapon { get; private set; }
     public Vector2 MovementInput { get; private set; }
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
         if (movement.collisions.above || movement.collisions.below)
             velocity.y = 0;
 
-       
+
         Jump();
         Move();
         Flip();
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftControl))
             animator.SetBool("Attack", false);
     }
-      
+
     private void Flip()
     {
         if (MovementInput.x < 0.0f && facingRight == false)
@@ -105,9 +105,9 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        float targetVelocityX = MovementInput.x * moveSpeed;
+        float targetVelocityX = MovementInput.x == 0 ? 0 : MovementInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (movement.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += movement.collisions.below ? 0 : gravity * Time.deltaTime;
         movement.Move(velocity * Time.deltaTime);
 
         bool isWalking = MovementInput.x != 0.0f;
