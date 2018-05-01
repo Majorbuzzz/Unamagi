@@ -109,9 +109,11 @@ public class Movement : MonoBehaviour
                 rayLength = hit.distance;
 
                 if (collisions.climbingSlope)
-                    velocity.x = velocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);                
+                    velocity.x = velocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(velocity.x);            
+                
 
                 collisions.below = directionY == -1;
+
                 collisions.above = directionY == 1;
             }
         }
@@ -159,7 +161,7 @@ public class Movement : MonoBehaviour
         if (hit)
         {
             float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-            if (slopeAngle != 0 && slopeAngle <= maxDescendAngle && slopeAngle >= minDescendAngle)
+            if (slopeAngle != 0 && slopeAngle <= maxDescendAngle)
             {
                 if (Mathf.Sign(hit.normal.x) == directionX)
                 {
